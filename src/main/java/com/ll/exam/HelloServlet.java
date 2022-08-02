@@ -1,4 +1,4 @@
-package com.ll.com.ll.exam;
+package com.ll.exam;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +13,6 @@ public class HelloServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.getWriter().println("Hi");
     }
 }

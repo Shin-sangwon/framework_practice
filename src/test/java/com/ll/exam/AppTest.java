@@ -1,4 +1,4 @@
-package com.ll.com.ll.exam;
+package com.ll.exam;
 
 import org.junit.jupiter.api.Test;
 
