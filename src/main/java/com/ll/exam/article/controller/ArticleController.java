@@ -13,12 +13,14 @@ public class ArticleController {
     private ArticleService articleService;
 
 
-    @GetMapping("/usr/article/list") // /usr/article/list와 관련된 요청 처리
+    @GetMapping("/usr/article/list/{boardCode}") // /usr/article/list와 관련된 요청 처리
     public void showList() {
 
     }
 
-    public ArticleService getArticleServiceForTest() {
-        return articleService;
+    @GetMapping("/usr/article/detail/{boardCode}")
+    public void showDetail() {
+
     }
+
 }
