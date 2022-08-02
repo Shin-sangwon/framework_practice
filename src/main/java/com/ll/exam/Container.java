@@ -6,25 +6,26 @@ import com.ll.exam.home.controller.HomeController;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Container {
-    private static final ArticleController articleController;
-    private static final HomeController homeController;
+
+    private static Map<Class, Object> objects;
 
     static {
-        articleController = Ut.cls.newObj(ArticleController.class, null);
-        homeController = Ut.cls.newObj(HomeController.class, null);
+        objects = new HashMap<>();
+
+        objects.put(ArticleController.class, new ArticleController());
+        objects.put(HomeController.class, new HomeController());
     }
 
-    public static ArticleController getArticleController() {
-        return articleController;
-    }
+    public static <T> T getObj(Class<T> cls){
 
-    public static HomeController getHomeController() {
-        return homeController;
-    }
+        return (T) objects.get(cls);
 
+    }
     public static List<String> getAllControllers() {
         List<String> names = new ArrayList<>();
 
