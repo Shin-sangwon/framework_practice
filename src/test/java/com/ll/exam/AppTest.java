@@ -2,6 +2,9 @@ package com.ll.exam;
 
 import com.ll.exam.article.controller.ArticleController;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -29,5 +32,12 @@ public class AppTest {
         assertThat(articleController1).isEqualTo(articleController2);
     }
 
+    @Test
+    public void ioc__dd() {
+        List<String> names = Container.getAllControllers();
 
+        for(var x : names) System.out.println(x);
+
+
+    }
 }
