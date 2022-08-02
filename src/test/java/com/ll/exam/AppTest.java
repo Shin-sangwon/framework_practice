@@ -70,5 +70,15 @@ public class AppTest {
         assertThat(articleService1).isEqualTo(articleService2);
     }
 
+    @Test
+    public void articleController를_생성할때_articleService도_같이생성(){
+
+        ArticleController articleController = Container.getObj(ArticleController.class);
+
+        ArticleService articleService = articleController.getArticleServiceForTest();
+
+        assertThat(articleService).isNotNull();
+    }
+
 
 }

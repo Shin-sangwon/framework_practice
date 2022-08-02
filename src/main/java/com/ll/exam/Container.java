@@ -1,13 +1,11 @@
 package com.ll.exam;
 
+import com.ll.exam.annotation.Autowired;
 import com.ll.exam.annotation.Controller;
 import com.ll.exam.annotation.Service;
 import org.reflections.Reflections;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Container {
 
@@ -23,6 +21,37 @@ public class Container {
     private static void scanComponents() {
         scanServices();
         scanControllers();
+
+        //조립
+        resolveDependenciesAllComponents();
+    }
+
+    private static void resolveDependenciesAllComponents() {
+        for ( var cls : objects.keySet()) {
+            Object o = objects.get(cls);
+
+            resolveDependencies(o);
+        }
+    }
+
+    private static void resolveDependencies(Object o) {
+        Arrays.asList(o.getClass().getDeclaredFields())
+                .stream()
+                .filter(f -> f.isAnnotationPresent(Autowired.class))
+                .map(field -> {
+                    field.setAccessible(true);
+                    return field;
+                })
+                .forEach(field -> {
+                    Class cls = field.getType();
+                    Object dependency = objects.get(cls);
+
+                    try {
+                        field.set(o, dependency);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private static void scanControllers() {
@@ -58,6 +87,7 @@ public class Container {
 
         return names;
     }
+
 
 
 }
