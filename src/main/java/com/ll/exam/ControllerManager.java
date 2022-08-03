@@ -1,11 +1,15 @@
 package com.ll.exam;
 
+import com.ll.exam.App;
+import com.ll.exam.Container;
+import com.ll.exam.RouteInfo;
+import com.ll.exam.Rq;
 import com.ll.exam.annotation.Controller;
 import com.ll.exam.annotation.GetMapping;
+import com.ll.exam.util.Ut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.reflections.Reflections;
-import com.ll.exam.util.Ut;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -56,9 +60,6 @@ public class ControllerManager {
 
         String mappingKey = routeMethod + "___" + actionPath;
 
-        System.out.println(mappingKey);
-        System.out.println(routeInfos.keySet());
-
         boolean contains = routeInfos.containsKey(mappingKey);
 
         if (contains == false) {
@@ -66,10 +67,14 @@ public class ControllerManager {
             return;
         }
 
-        runAction(rq, routeInfos.get(mappingKey));
+        RouteInfo routeInfo = routeInfos.get(mappingKey);
+        rq.setRouteInfo(routeInfo);
+
+        runAction(rq);
     }
 
-    private static void runAction(Rq rq, RouteInfo routeInfo) {
+    private static void runAction(Rq rq) {
+        RouteInfo routeInfo = rq.getRouteInfo();
         Class controllerCls = routeInfo.getControllerCls();
         Method actionMethod = routeInfo.getMethod();
 
@@ -82,8 +87,6 @@ public class ControllerManager {
         } catch (InvocationTargetException e) {
             rq.println("액션시작에 실패하였습니다.");
         }
-
-
     }
 
     public static void init() {

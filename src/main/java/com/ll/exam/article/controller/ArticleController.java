@@ -6,6 +6,8 @@ import com.ll.exam.annotation.Controller;
 import com.ll.exam.annotation.GetMapping;
 import com.ll.exam.article.service.ArticleService;
 
+// ArticleController 가 컨트롤러 이다.
+// 아래 ArticleController 클래스는 Controller 이다.
 @Controller
 public class ArticleController {
     @Autowired
@@ -19,14 +21,23 @@ public class ArticleController {
 
     @GetMapping("/usr/article/detail/{boardCode}/{id}")
     public void showDetail(Rq rq) {
-        rq.println("게시물 상세페이지");
+        rq.println("게시물 상세페이지<br>");
+
+        // long id = rq.getLongPathValueByIndex(1, -1);
+        String boardCode = rq.getParam("boardCode", ""); // 곧 기능 구현
+        long id = rq.getLongParam("id", -1); // 곧 기능 구현
+
+        rq.println("%s 게시판, %d번 게시물".formatted(boardCode, id));
     }
 
     @GetMapping("/usr/article/modify/{boardCode}/{id}")
     public void showModify(Rq rq) {
-        rq.println("게시물 수정페이지");
+        rq.println("게시물 수정페이지<br>");
 
-        long id = rq.getLongPathValueByIndex(1, -1);
-        // long id = rq.getLongParam("id"); // 곧 기능 구현
+        // long id = rq.getLongPathValueByIndex(1, -1);
+        String boardCode = rq.getParam("boardCode", ""); // 곧 기능 구현
+        long id = rq.getLongParam("id", -1); // 곧 기능 구현
+
+        rq.println("%s 게시판, %d번 게시물".formatted(boardCode, id));
     }
 }
